@@ -540,7 +540,7 @@ body.kid-mode .btn .pinyin-text {
     grid-template-rows: auto auto minmax(0, 1fr);
     gap: 6px;
     height: 100%;
-    padding: 6px 6px calc(140px + env(safe-area-inset-bottom)) 6px;
+    padding: 6px 6px calc(168px + env(safe-area-inset-bottom)) 6px;
   }
 
   .top-panel {
@@ -607,39 +607,38 @@ body.kid-mode .btn .pinyin-text {
   .thumb-zone {
     display: block;
     position: fixed;
-    left: 50%;
     bottom: calc(8px + env(safe-area-inset-bottom));
-    transform: translateX(-50%);
-    width: min(210px, 58vw);
-    height: min(210px, 58vw);
+    width: min(152px, 41vw);
+    height: min(152px, 41vw);
     z-index: 16;
     background:
       linear-gradient(160deg, #ffffffe8 0%, #ffffffb8 55%, #ffd8eb82 100%);
     border: 1px solid #ffffffd9;
-    border-radius: 22px;
+    border-radius: 18px;
     box-shadow: 0 10px 20px #a85d833a, inset 0 1px 0 #ffffff;
     backdrop-filter: blur(12px) saturate(1.1);
     -webkit-backdrop-filter: blur(12px) saturate(1.1);
   }
 
   .left-zone {
-    justify-self: auto;
-    align-self: auto;
-    padding: 10px;
+    left: max(6px, env(safe-area-inset-left));
+    padding: 7px;
   }
 
   .right-zone {
-    display: none;
+    display: block;
+    right: max(6px, env(safe-area-inset-right));
+    padding: 7px;
   }
 
   .op-btn {
-    width: min(70px, 18vw);
-    height: min(70px, 18vw);
-    min-height: 56px;
+    width: min(56px, 14.8vw);
+    height: min(56px, 14.8vw);
+    min-height: 48px;
   }
 
   .op-icon {
-    font-size: 1.2em;
+    font-size: 1.04em;
   }
 }
 
