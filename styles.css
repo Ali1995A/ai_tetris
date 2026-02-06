@@ -1,22 +1,25 @@
 :root {
-  --bg1: #fff4fb;
-  --bg2: #ffe5f2;
-  --bg3: #ffd9ec;
+  --bg1: #fff6fb;
+  --bg2: #ffe8f2;
+  --bg3: #ffd7ea;
   --card: #ffffffe6;
-  --text: #503245;
-  --accent: #ff8fbe;
-  --btn: #ff7db1;
-  --btn-strong: #ff5f9d;
-  --btn-alt: #f7a5cb;
-  --btn-alt-strong: #ef8aba;
-  --board: #fff8fc;
-  --line: #f7d6e6;
+  --text: #4b2a3d;
+  --accent: #ff7fb6;
+  --btn: #ff79b1;
+  --btn-strong: #ff4f98;
+  --btn-alt: #f5a8c9;
+  --btn-alt-strong: #ee86b8;
+  --board: #fff9fd;
+  --line: #f4d4e5;
   --hairline: #ffffff;
-  --soft-shadow: #ad5f8440;
+  --soft-shadow: #a04f7640;
   --glass-bg: #ffffff9e;
-  --glass-bg-strong: #ffffffe6;
-  --glass-stroke: #ffffffd9;
-  --glass-shadow: #7f3a5e38;
+  --glass-bg-strong: #fffffff0;
+  --glass-stroke: #ffffffd6;
+  --glass-shadow: #6e2c4e2b;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --blur: 16px;
 }
 
 @font-face {
@@ -40,14 +43,17 @@ body {
   height: 100%;
   touch-action: manipulation;
   overscroll-behavior: none;
-  font-family: "Trebuchet MS", "Arial Rounded MT Bold", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background:
-    radial-gradient(circle at 15% 5%, #ffffff 0%, transparent 42%),
-    radial-gradient(circle at 90% 0%, #ffffffaa 0%, transparent 30%),
+    radial-gradient(circle at 12% 8%, #ffffff 0%, transparent 38%),
+    radial-gradient(circle at 88% 0%, #ffffffbf 0%, transparent 32%),
+    radial-gradient(circle at 88% 88%, #ffffff8c 0%, transparent 28%),
     linear-gradient(165deg, var(--bg1) 0%, var(--bg2) 52%, var(--bg3) 100%);
   display: flex;
   align-items: stretch;
@@ -61,9 +67,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #12253a8a;
+  background: #1a0f1759;
   z-index: 20;
   padding: 16px;
+  backdrop-filter: blur(var(--blur)) saturate(1.1);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.1);
 }
 
 .guide.hidden {
@@ -72,10 +80,10 @@ body {
 
 .guide-card {
   width: min(560px, 96%);
-  background: #fff9fd;
-  border-radius: 18px;
-  border: 2px solid var(--hairline);
-  box-shadow: 0 16px 38px var(--soft-shadow);
+  background: linear-gradient(160deg, #fffffffa 0%, #ffffffd4 60%, #ffe2ef9c 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-stroke);
+  box-shadow: 0 20px 44px var(--glass-shadow), inset 0 1px 0 #ffffff;
   padding: 18px;
   text-align: center;
 }
@@ -107,14 +115,14 @@ body {
 
 .panel {
   background:
-    linear-gradient(160deg, #ffffffd9 0%, #ffffffa6 52%, #ffdff05e 100%);
-  border: 1.5px solid var(--glass-stroke);
-  border-radius: 18px;
+    linear-gradient(160deg, #fffffffa 0%, var(--glass-bg) 58%, #ffdff08a 100%);
+  border: 1px solid var(--glass-stroke);
+  border-radius: var(--radius-lg);
   box-shadow:
-    0 14px 34px var(--glass-shadow),
+    0 14px 32px var(--glass-shadow),
     inset 0 1px 0 #ffffff;
-  backdrop-filter: blur(14px) saturate(1.18);
-  -webkit-backdrop-filter: blur(14px) saturate(1.18);
+  backdrop-filter: blur(var(--blur)) saturate(1.16);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.16);
   padding: 12px;
 }
 
@@ -240,12 +248,12 @@ h1 {
 #game,
 #next {
   background: var(--board);
-  border-radius: 14px;
-  border: 2px solid #ffe6f3;
+  border-radius: var(--radius-md);
+  border: 1px solid #ffffffd6;
   display: block;
   width: 100%;
   height: auto;
-  box-shadow: inset 0 1px 0 #ffffff, 0 4px 14px #e59abe22;
+  box-shadow: inset 0 1px 0 #ffffff, 0 10px 24px #6e2c4e14;
 }
 
 .next-wrap {
@@ -262,12 +270,11 @@ h1 {
   justify-self: end;
   align-self: start;
   padding: 6px;
-  background:
-    linear-gradient(160deg, #ffffffef 0%, #ffffffc2 58%, #ffd8ea80 100%);
-  border: 1px solid #ffffffd8;
-  box-shadow: 0 10px 24px #a85d8342, inset 0 1px 0 #ffffff;
-  backdrop-filter: blur(12px) saturate(1.1);
-  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  background: linear-gradient(160deg, #fffffffa 0%, #ffffffd1 60%, #ffe0ee9a 100%);
+  border: 1px solid var(--glass-stroke);
+  box-shadow: 0 14px 28px #6e2c4e1f, inset 0 1px 0 #ffffff;
+  backdrop-filter: blur(calc(var(--blur) - 2px)) saturate(1.12);
+  -webkit-backdrop-filter: blur(calc(var(--blur) - 2px)) saturate(1.12);
 }
 
 .op-controls {
@@ -290,11 +297,11 @@ h1 {
   min-height: 62px;
   font-size: clamp(18px, 2.4vw, 24px);
   border-radius: 14px;
-  background:
-    linear-gradient(170deg, #ffbedd 0%, #ff8fbe 46%, #ff6ca9 100%);
+  background: linear-gradient(170deg, #ffc6df 0%, #ff7fb6 46%, #ff4f98 100%);
   box-shadow:
-    0 10px 20px #ff7fb667,
-    inset 0 1px 0 #ffdff0;
+    0 16px 30px #ff6aa44a,
+    inset 0 1px 0 #ffeaf3,
+    inset 0 -1px 0 #ff4f9850;
   padding: 0;
   transform: rotate(45deg);
   display: inline-flex;
@@ -306,6 +313,7 @@ h1 {
   transform: rotate(-45deg);
   font-size: 1.25em;
   line-height: 1;
+  text-shadow: 0 1px 0 #ffffff42;
 }
 
 .action-rotate {
@@ -346,7 +354,7 @@ h1 {
   font-size: clamp(12px, 2.2vw, 15px);
   border-radius: 10px;
   background:
-    linear-gradient(180deg, #ffe0ee 0%, #f6b8d8 55%, #ef96c3 100%);
+    linear-gradient(180deg, #ffe8f2 0%, #f5bedc 55%, #ef93c2 100%);
   box-shadow:
     0 6px 14px #d57fa85e,
     inset 0 1px 0 #fff4fa;
@@ -361,9 +369,9 @@ h1 {
   font-weight: 700;
   color: #fff;
   background:
-    linear-gradient(180deg, #ffb5d7 0%, #ff86b9 58%, var(--btn) 100%);
+    linear-gradient(180deg, #ffd0e6 0%, #ff8fbe 58%, var(--btn) 100%);
   box-shadow:
-    0 8px 16px #ff90bf5e,
+    0 12px 24px #ff76ad3d,
     inset 0 1px 0 #ffe8f4;
 }
 
@@ -382,6 +390,27 @@ h1 {
 .btn:active {
   transform: scale(0.97) translateY(1px);
   filter: saturate(1.12) brightness(0.98);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel {
+    animation: floatIn 360ms cubic-bezier(.2,.9,.2,1) both;
+  }
+
+  .thumb-zone {
+    animation: floatIn 420ms 40ms cubic-bezier(.2,.9,.2,1) both;
+  }
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .btn-alt {
