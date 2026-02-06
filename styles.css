@@ -151,13 +151,6 @@ h1 {
   opacity: 0.9;
 }
 
-.subtitle,
-.hint {
-  margin: 6px 0 0;
-  text-align: center;
-  font-size: clamp(14px, 2.8vw, 18px);
-}
-
 .stats {
   margin-top: 8px;
   display: flex;
@@ -170,50 +163,59 @@ h1 {
   padding: 4px 8px;
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "title title"
-    "subtitle stats";
-  align-items: end;
-  gap: 0 8px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 10px;
 }
 
-.top-panel h1 {
-  grid-area: title;
-  text-align: left;
-  margin: 0;
-  font-size: clamp(17px, 2.2vw, 22px);
-}
-
-.top-panel .subtitle {
-  grid-area: subtitle;
-  margin: 0;
-  text-align: left;
-  font-size: clamp(11px, 1.5vw, 14px);
+.top-title {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: 0;
 }
 
 .top-panel .stats {
-  grid-area: stats;
+  grid-column: 2;
+  grid-row: 1 / span 2;
   margin: 0;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.top-panel .tri-stack {
-  align-items: flex-start;
-  gap: 0;
-}
-
 .top-panel .pinyin-text {
-  font-size: 0.5em;
+  font-size: clamp(10px, 1.4vw, 12px);
+  opacity: 0.95;
 }
 
 .top-panel .hanzi-text {
-  font-size: 0.72em;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 800;
 }
 
-.top-panel .en-text,
-.top-panel .hint {
+.top-panel .en-text {
   display: none;
+}
+
+.top-panel .stat-item {
+  flex-direction: row;
+  gap: 6px;
+}
+
+.top-panel .stat-item .pinyin-text,
+.top-panel .stat-item .en-text {
+  display: none;
+}
+
+.top-panel .stat-item .hanzi-text {
+  font-size: clamp(10px, 1.4vw, 12px);
+  opacity: 0.92;
+}
+
+.top-panel .stat-item strong {
+  font-size: clamp(14px, 2vw, 18px);
 }
 
 .stat-item {
@@ -399,11 +401,6 @@ body.kid-mode h1 {
   font-size: clamp(30px, 6vw, 48px);
 }
 
-body.kid-mode .subtitle,
-body.kid-mode .hint {
-  font-size: clamp(16px, 3.3vw, 22px);
-}
-
 body.kid-mode .stats {
   font-size: clamp(18px, 3.4vw, 24px);
 }
@@ -441,14 +438,6 @@ body.kid-mode .btn .pinyin-text {
     grid-column: 1 / 4;
     gap: 0 6px;
     padding: 3px 8px;
-  }
-
-  .top-panel h1 {
-    line-height: 1;
-  }
-
-  .top-panel .subtitle {
-    white-space: nowrap;
   }
 
   .top-panel .stats {
@@ -548,12 +537,12 @@ body.kid-mode .btn .pinyin-text {
     padding: 3px 7px;
   }
 
-  .top-panel h1 {
-    font-size: clamp(15px, 4.2vw, 19px);
+  .top-title .pinyin-text {
+    font-size: clamp(9px, 2.4vw, 11px);
   }
 
-  .top-panel .subtitle {
-    font-size: clamp(10px, 2.8vw, 12px);
+  .top-title .hanzi-text {
+    font-size: clamp(13px, 4vw, 16px);
   }
 
   .top-panel .stats {

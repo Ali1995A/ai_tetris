@@ -1,9 +1,12 @@
 (function () {
   var COLS = 10;
   var ROWS = 18;
-  var BLOCK = 30;
   var DROP_INTERVAL = 1300;
   var SETTINGS_KEY = 'kid_tetris_settings_v1';
+  var blockSize = 30;
+  var canvasCssWidth = COLS * blockSize;
+  var canvasCssHeight = ROWS * blockSize;
+  var nextCanvasCssSize = 96;
 
   var COLORS = {
     I: '#62dafb',
@@ -37,9 +40,6 @@
   var scoreEl = document.getElementById('score');
   var linesEl = document.getElementById('lines');
   var hintEl = document.getElementById('hint');
-
-  canvas.width = COLS * BLOCK;
-  canvas.height = ROWS * BLOCK;
 
   var board = createBoard();
   var score = 0;
@@ -339,15 +339,15 @@
   }
 
   function drawBoard() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvasCssWidth, canvasCssHeight);
 
     for (var y = 0; y < ROWS; y += 1) {
       for (var x = 0; x < COLS; x += 1) {
         if (board[y][x]) {
-          drawCell(ctx, x, y, COLORS[board[y][x]], BLOCK);
+          drawCell(ctx, x, y, COLORS[board[y][x]], blockSize);
         } else {
           ctx.fillStyle = '#eef5fb';
-          ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK - 1, BLOCK - 1);
+          ctx.fillRect(x * blockSize, y * blockSize, blockSize - 1, blockSize - 1);
         }
       }
     }
@@ -355,17 +355,17 @@
     for (var py = 0; py < current.shape.length; py += 1) {
       for (var px = 0; px < current.shape[py].length; px += 1) {
         if (current.shape[py][px]) {
-          drawCell(ctx, current.x + px, current.y + py, COLORS[current.type], BLOCK);
+          drawCell(ctx, current.x + px, current.y + py, COLORS[current.type], blockSize);
         }
       }
     }
   }
 
   function drawNext() {
-    nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
-    var size = 24;
-    var offsetX = Math.floor((nextCanvas.width / size - nextPiece.shape[0].length) / 2);
-    var offsetY = Math.floor((nextCanvas.height / size - nextPiece.shape.length) / 2);
+    nextCtx.clearRect(0, 0, nextCanvasCssSize, nextCanvasCssSize);
+    var size = Math.max(10, Math.floor(nextCanvasCssSize / 5));
+    var offsetX = Math.floor((nextCanvasCssSize / size - nextPiece.shape[0].length) / 2);
+    var offsetY = Math.floor((nextCanvasCssSize / size - nextPiece.shape.length) / 2);
 
     for (var y = 0; y < nextPiece.shape.length; y += 1) {
       for (var x = 0; x < nextPiece.shape[y].length; x += 1) {
@@ -634,6 +634,49 @@
     }, { passive: false });
   }
 
+  function resizeCanvases() {
+    var gameWrap = document.querySelector('.game-wrap');
+    var nextWrap = document.querySelector('.next-wrap');
+    var wrapRect = gameWrap ? gameWrap.getBoundingClientRect() : null;
+    if (!wrapRect) {
+      return;
+    }
+
+    var nextRect = nextWrap ? nextWrap.getBoundingClientRect() : null;
+    var nextVisible = nextWrap && nextWrap.offsetParent !== null && nextRect && nextRect.width > 0;
+    var gap = 10;
+    var pad = 12;
+
+    var availableWidth = wrapRect.width - pad - (nextVisible ? (nextRect.width + gap) : 0);
+    var availableHeight = wrapRect.height - pad;
+
+    var newBlock = Math.floor(Math.min(availableWidth / COLS, availableHeight / ROWS));
+    newBlock = Math.max(12, Math.min(newBlock, 60));
+    blockSize = newBlock;
+    canvasCssWidth = COLS * blockSize;
+    canvasCssHeight = ROWS * blockSize;
+
+    canvas.style.width = canvasCssWidth + 'px';
+    canvas.style.height = canvasCssHeight + 'px';
+
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(canvasCssWidth * dpr);
+    canvas.height = Math.floor(canvasCssHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+
+    if (nextVisible) {
+      nextCanvasCssSize = Math.floor(Math.min(nextRect.width, 104));
+      nextCanvasCssSize = Math.max(64, nextCanvasCssSize);
+      nextCanvas.style.width = nextCanvasCssSize + 'px';
+      nextCanvas.style.height = nextCanvasCssSize + 'px';
+      nextCanvas.width = Math.floor(nextCanvasCssSize * dpr);
+      nextCanvas.height = Math.floor(nextCanvasCssSize * dpr);
+      nextCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      nextCtx.imageSmoothingEnabled = false;
+    }
+  }
+
   function setupPortraitCanvasGestures() {
     var startX = 0;
     var startY = 0;
@@ -697,6 +740,13 @@
   function init() {
     loadSettings();
     normalizeAllPinyinNodes();
+    resizeCanvases();
+    window.addEventListener('resize', function () {
+      // Keep the board as large as possible when orientation/layout changes.
+      window.setTimeout(function () {
+        resizeCanvases();
+      }, 50);
+    });
     nextPiece = createPiece(randomType());
     spawn();
     drawNext();
