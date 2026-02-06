@@ -3,6 +3,7 @@
   var ROWS = 18;
   var BLOCK = 30;
   var DROP_INTERVAL = 1300;
+  var SETTINGS_KEY = 'kid_tetris_settings_v1';
 
   var COLORS = {
     I: '#62dafb',
@@ -28,6 +29,8 @@
 
   var canvas = document.getElementById('game');
   var nextCanvas = document.getElementById('next');
+  var guideEl = document.getElementById('guide');
+  var btnGuideStart = document.getElementById('btnGuideStart');
   var ctx = canvas.getContext('2d');
   var nextCtx = nextCanvas.getContext('2d');
 
@@ -41,7 +44,7 @@
   var board = createBoard();
   var score = 0;
   var lines = 0;
-  var paused = false;
+  var paused = true;
   var touchLockEnabled = true;
   var voiceEnabled = true;
   var kidModeEnabled = true;
@@ -57,6 +60,45 @@
       data.push(new Array(COLS).fill(''));
     }
     return data;
+  }
+
+  function vibrate(ms) {
+    if (navigator.vibrate) {
+      navigator.vibrate(ms);
+    }
+  }
+
+  function loadSettings() {
+    try {
+      var raw = localStorage.getItem(SETTINGS_KEY);
+      if (!raw) {
+        return;
+      }
+      var data = JSON.parse(raw);
+      if (typeof data.touchLockEnabled === 'boolean') {
+        touchLockEnabled = data.touchLockEnabled;
+      }
+      if (typeof data.voiceEnabled === 'boolean') {
+        voiceEnabled = data.voiceEnabled;
+      }
+      if (typeof data.kidModeEnabled === 'boolean') {
+        kidModeEnabled = data.kidModeEnabled;
+      }
+    } catch (err) {
+      // Ignore invalid cache.
+    }
+  }
+
+  function saveSettings() {
+    try {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+        touchLockEnabled: touchLockEnabled,
+        voiceEnabled: voiceEnabled,
+        kidModeEnabled: kidModeEnabled
+      }));
+    } catch (err) {
+      // Ignore storage errors.
+    }
   }
 
   function randomType() {
@@ -167,6 +209,7 @@
     if (cleared > 0) {
       lines += cleared;
       score += cleared * 100;
+      vibrate(18);
       if (lines % 5 === 0) {
         setHint('太棒了！你已经消除了 ' + lines + ' 行！', true);
       }
@@ -174,9 +217,19 @@
     }
   }
 
+  function softenTopRows() {
+    var rescueRows = Math.floor(ROWS / 2);
+    for (var y = 0; y < rescueRows; y += 1) {
+      board[y] = new Array(COLS).fill('');
+    }
+  }
+
   function emergencyRescue() {
-    board = createBoard();
-    setHint('积木太高啦，已自动整理，继续开心玩！', true);
+    softenTopRows();
+    score += 30;
+    vibrate([20, 40, 20]);
+    setHint('启动自动救援，危险区域已清理，可以继续玩。', true);
+    updateStats();
   }
 
   function spawn() {
@@ -215,7 +268,9 @@
     current.x += dx;
     if (collide(current)) {
       current.x -= dx;
+      return;
     }
+    vibrate(10);
   }
 
   function softDrop() {
@@ -247,6 +302,7 @@
         }
       }
     }
+    vibrate(12);
   }
 
   function drawCell(context, x, y, color, size) {
@@ -370,11 +426,13 @@
     var btnTouchLock = document.getElementById('btnTouchLock');
     var btnVoice = document.getElementById('btnVoice');
     var btnKid = document.getElementById('btnKid');
+    var btnGuide = document.getElementById('btnGuide');
 
     function refreshSwitchText() {
       btnTouchLock.textContent = '防误触：' + (touchLockEnabled ? '开' : '关');
       btnVoice.textContent = '语音提示：' + (voiceEnabled ? '开' : '关');
       btnKid.textContent = '幼儿大字：' + (kidModeEnabled ? '开' : '关');
+      document.body.classList.toggle('kid-mode', kidModeEnabled);
     }
 
     document.getElementById('btnPause').addEventListener('click', function () {
@@ -397,17 +455,20 @@
       spawn();
       drawNext();
       lastTime = performance.now();
+      saveSettings();
     });
 
     btnTouchLock.addEventListener('click', function () {
       touchLockEnabled = !touchLockEnabled;
       refreshSwitchText();
+      saveSettings();
       setHint(touchLockEnabled ? '已开启防误触手势锁定。' : '已关闭防误触手势锁定。', true);
     });
 
     btnVoice.addEventListener('click', function () {
       voiceEnabled = !voiceEnabled;
       refreshSwitchText();
+      saveSettings();
       setHint(voiceEnabled ? '语音提示已开启。' : '语音提示已关闭。', false);
       if (voiceEnabled) {
         speak('语音提示已开启。');
@@ -416,9 +477,15 @@
 
     btnKid.addEventListener('click', function () {
       kidModeEnabled = !kidModeEnabled;
-      document.body.classList.toggle('kid-mode', kidModeEnabled);
       refreshSwitchText();
+      saveSettings();
       setHint(kidModeEnabled ? '幼儿大字模式已开启。' : '幼儿大字模式已关闭。', true);
+    });
+
+    btnGuide.addEventListener('click', function () {
+      paused = true;
+      guideEl.classList.remove('hidden');
+      setHint('阅读提示后点击开始继续。', false);
     });
 
     if (isWeChat) {
@@ -442,6 +509,16 @@
         e.preventDefault();
         hardDrop();
       }
+    });
+  }
+
+  function setupGuide() {
+    btnGuideStart.addEventListener('click', function () {
+      guideEl.classList.add('hidden');
+      paused = false;
+      lastTime = performance.now();
+      vibrate(25);
+      setHint('开始啦，慢慢玩就可以。', true);
     });
   }
 
@@ -484,12 +561,13 @@
   }
 
   function init() {
-    document.body.classList.add('kid-mode');
+    loadSettings();
     nextPiece = createPiece(randomType());
     spawn();
     drawNext();
     updateStats();
     setupControls();
+    setupGuide();
     setupGestureGuard();
     lastTime = performance.now();
     requestAnimationFrame(update);
