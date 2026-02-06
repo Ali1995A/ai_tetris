@@ -274,7 +274,7 @@ h1 {
 
 .thumb-zone {
   position: relative;
-  display: block;
+  display: none;
   min-height: 0;
   padding: 8px;
   width: min(240px, 19vw);
@@ -531,6 +531,115 @@ body.kid-mode .btn .pinyin-text {
 
   .thumb-zone {
     justify-self: center;
+  }
+}
+
+@media (orientation: portrait) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    gap: 6px;
+    height: 100%;
+    padding: 6px 6px calc(140px + env(safe-area-inset-bottom)) 6px;
+  }
+
+  .top-panel {
+    gap: 0 6px;
+    padding: 3px 7px;
+  }
+
+  .top-panel h1 {
+    font-size: clamp(15px, 4.2vw, 19px);
+  }
+
+  .top-panel .subtitle {
+    font-size: clamp(10px, 2.8vw, 12px);
+  }
+
+  .top-panel .stats {
+    font-size: clamp(11px, 2.8vw, 14px);
+    gap: 6px;
+  }
+
+  .controls {
+    max-width: 100%;
+    justify-self: stretch;
+    align-self: start;
+    padding: 5px;
+    background: #ffffffcf;
+  }
+
+  .fn-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .fn-controls .btn {
+    min-height: 34px;
+    font-size: clamp(11px, 2.7vw, 13px);
+    border-radius: 9px;
+  }
+
+  .game-wrap {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px;
+    padding: 6px;
+    align-items: stretch;
+  }
+
+  #game {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .next-wrap {
+    width: clamp(62px, 16vw, 86px);
+    font-size: clamp(10px, 2.5vw, 12px);
+    align-self: start;
+  }
+
+  #next {
+    max-width: 84px;
+  }
+
+  .thumb-zone {
+    display: block;
+    position: fixed;
+    left: 50%;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(210px, 58vw);
+    height: min(210px, 58vw);
+    z-index: 16;
+    background:
+      linear-gradient(160deg, #ffffffe8 0%, #ffffffb8 55%, #ffd8eb82 100%);
+    border: 1px solid #ffffffd9;
+    border-radius: 22px;
+    box-shadow: 0 10px 20px #a85d833a, inset 0 1px 0 #ffffff;
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  }
+
+  .left-zone {
+    justify-self: auto;
+    align-self: auto;
+    padding: 10px;
+  }
+
+  .right-zone {
+    display: none;
+  }
+
+  .op-btn {
+    width: min(70px, 18vw);
+    height: min(70px, 18vw);
+    min-height: 56px;
+  }
+
+  .op-icon {
+    font-size: 1.2em;
   }
 }
 

@@ -634,6 +634,66 @@
     }, { passive: false });
   }
 
+  function setupPortraitCanvasGestures() {
+    var startX = 0;
+    var startY = 0;
+    var startTime = 0;
+    var active = false;
+
+    function isPortrait() {
+      return window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+    }
+
+    canvas.addEventListener('touchstart', function (e) {
+      if (!isPortrait()) {
+        return;
+      }
+      if (!e.touches || e.touches.length === 0) {
+        return;
+      }
+      var t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      startTime = Date.now();
+      active = true;
+    }, { passive: true });
+
+    canvas.addEventListener('touchend', function (e) {
+      if (!isPortrait() || !active || paused) {
+        active = false;
+        return;
+      }
+      var changed = e.changedTouches && e.changedTouches[0];
+      if (!changed) {
+        active = false;
+        return;
+      }
+
+      var dx = changed.clientX - startX;
+      var dy = changed.clientY - startY;
+      var adx = Math.abs(dx);
+      var ady = Math.abs(dy);
+      var dt = Date.now() - startTime;
+
+      if (adx < 16 && ady < 16 && dt < 280) {
+        rotate();
+      } else if (adx > ady && adx > 18) {
+        if (dx > 0) {
+          move(1);
+        } else {
+          move(-1);
+        }
+      } else if (dy > 26) {
+        if (dy > 90) {
+          hardDrop();
+        } else {
+          softDrop();
+        }
+      }
+      active = false;
+    }, { passive: true });
+  }
+
   function init() {
     loadSettings();
     normalizeAllPinyinNodes();
@@ -644,6 +704,7 @@
     setupControls();
     setupGuide();
     setupGestureGuard();
+    setupPortraitCanvasGestures();
     lastTime = performance.now();
     requestAnimationFrame(update);
   }
