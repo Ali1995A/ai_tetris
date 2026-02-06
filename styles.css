@@ -59,6 +59,13 @@ body {
   align-items: stretch;
   justify-content: center;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  min-height: 100svh;
+}
+
+@supports (height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
 }
 
 .app {
@@ -67,8 +74,14 @@ body {
   display: grid;
   gap: 10px;
   grid-template-rows: auto 1fr auto;
-  min-height: 100%;
+  min-height: 100svh;
   padding: 8px;
+}
+
+@supports (height: 100dvh) {
+  .app {
+    min-height: 100dvh;
+  }
 }
 
 .panel {
@@ -256,47 +269,64 @@ h1 {
   min-height: 62px;
   font-size: clamp(18px, 2.4vw, 24px);
   border-radius: 14px;
+  border: 1px solid #ffffff4a;
   background: linear-gradient(170deg, #ffc6df 0%, #ff7fb6 46%, #ff4f98 100%);
   box-shadow:
     0 16px 30px #ff6aa44a,
     inset 0 1px 0 #ffeaf3,
     inset 0 -1px 0 #ff4f9850;
   padding: 0;
-  transform: rotate(45deg);
+  transform: var(--op-transform);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
+.op-btn:active {
+  transform: var(--op-transform) scale(0.97);
+  filter: saturate(1.12) brightness(0.98);
+}
+
 .op-icon {
   transform: rotate(-45deg);
-  font-size: 1.25em;
-  line-height: 1;
-  text-shadow: 0 1px 0 #ffffff42;
+  width: 30px;
+  height: 30px;
+  color: #ffffff;
+  opacity: 0.98;
+  filter: drop-shadow(0 1px 0 #ffffff35);
+}
+
+.op-icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .action-rotate {
   left: 50%;
   top: 0;
-  transform: translateX(-50%) rotate(45deg);
+  --op-transform: translateX(-50%) rotate(45deg);
 }
 
 .action-down {
   left: 50%;
   bottom: 0;
-  transform: translateX(-50%) rotate(45deg);
+  --op-transform: translateX(-50%) rotate(45deg);
 }
 
 .action-left {
   left: 0;
   top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+  --op-transform: translateY(-50%) rotate(45deg);
 }
 
 .action-right {
   right: 0;
   top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+  --op-transform: translateY(-50%) rotate(45deg);
 }
 
 .fn-controls {
@@ -416,7 +446,7 @@ body.kid-mode .btn .pinyin-text {
 
 @media (orientation: landscape) {
   .app {
-    grid-template-columns: minmax(170px, 20vw) minmax(0, 1fr) minmax(170px, 20vw);
+    grid-template-columns: minmax(240px, 22vw) minmax(0, 1fr) minmax(240px, 22vw);
     grid-template-rows: auto minmax(0, 1fr);
     height: 100%;
     padding: 8px;
@@ -438,7 +468,7 @@ body.kid-mode .btn .pinyin-text {
     grid-row: 2;
     height: 100%;
     align-items: stretch;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     padding: 8px;
   }
 
@@ -450,29 +480,32 @@ body.kid-mode .btn .pinyin-text {
   }
 
   .next-wrap {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     display: block;
-    width: clamp(68px, 8vw, 92px);
-    align-self: start;
-    font-size: clamp(12px, 1.4vw, 14px);
+    width: clamp(72px, 6.5vw, 98px);
+    font-size: clamp(11px, 1.2vw, 13px);
+    opacity: 0.96;
+    pointer-events: none;
   }
 
   #next {
     width: 100%;
-    max-width: 92px;
+    max-width: 98px;
     margin: 0 auto;
   }
 
   .controls {
-    grid-column: 3;
-    grid-row: 2;
-    justify-self: end;
-    align-self: start;
-    width: min(220px, 18vw);
-    background: #ffffffd6;
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top));
+    right: calc(8px + env(safe-area-inset-right));
+    z-index: 19;
+    width: min(240px, 22vw);
   }
 
   .thumb-zone {
-    display: grid;
+    display: block;
     background:
       linear-gradient(160deg, #ffffffe8 0%, #ffffffb5 55%, #ffd8eb80 100%);
     border: 1px solid #ffffffd9;
@@ -486,28 +519,24 @@ body.kid-mode .btn .pinyin-text {
     grid-column: 1;
     grid-row: 2;
     align-self: end;
-    justify-self: stretch;
-    padding: 8px 10px 18px max(8px, env(safe-area-inset-left));
+    justify-self: start;
+    padding: 8px 10px max(18px, 3vh) max(8px, env(safe-area-inset-left));
   }
 
   .right-zone {
     grid-column: 3;
     grid-row: 2;
     align-self: end;
-    justify-self: stretch;
-    padding: 8px max(8px, env(safe-area-inset-right)) 18px 10px;
+    justify-self: end;
+    padding: 8px max(8px, env(safe-area-inset-right)) max(18px, 3vh) 10px;
   }
 
   .fn-controls {
     align-content: start;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: minmax(42px, auto);
+    grid-auto-rows: minmax(38px, auto);
     max-width: 100%;
     justify-self: end;
-  }
-
-  .thumb-zone {
-    justify-self: center;
   }
 }
 
@@ -517,7 +546,7 @@ body.kid-mode .btn .pinyin-text {
     grid-template-rows: auto minmax(0, 1fr);
     gap: 6px;
     height: 100%;
-    padding: 6px 6px calc(158px + env(safe-area-inset-bottom)) 6px;
+    padding: 6px;
   }
 
   .top-panel {
@@ -603,7 +632,7 @@ body.kid-mode .btn .pinyin-text {
   .thumb-zone {
     display: block;
     position: fixed;
-    bottom: calc(10px + env(safe-area-inset-bottom));
+    bottom: calc(clamp(10px, 8vh, 110px) + env(safe-area-inset-bottom));
     width: min(144px, 39vw);
     height: min(144px, 39vw);
     z-index: 16;
@@ -634,7 +663,8 @@ body.kid-mode .btn .pinyin-text {
   }
 
   .op-icon {
-    font-size: 1.04em;
+    width: min(26px, 7vw);
+    height: min(26px, 7vw);
   }
 }
 

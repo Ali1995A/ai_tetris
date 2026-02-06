@@ -9,26 +9,6 @@
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <section id="guide" class="guide" aria-label="玩法引导">
-    <div class="guide-card">
-      <h2 class="tri-stack">
-        <span class="pinyin-text">huān yíng lái dào fāng kuài lè yuán</span>
-        <span class="hanzi-text">欢迎来到方块乐园</span>
-        <span class="en-text">WELCOME TO BLOCK LAND</span>
-      </h2>
-      <p class="tri-stack">
-        <span class="pinyin-text">diǎn àn niǔ kāi shǐ</span>
-        <span class="hanzi-text">点按钮开始</span>
-        <span class="en-text">TAP BUTTONS TO START</span>
-      </p>
-      <button id="btnGuideStart" class="btn tri-btn">
-        <span class="pinyin-text">kāi shǐ yóu xì</span>
-        <span class="hanzi-text">开始游戏</span>
-        <span class="en-text">START GAME</span>
-      </button>
-    </div>
-  </section>
-
   <main class="app">
     <section class="panel top-panel">
       <div class="top-title" aria-label="标题">
@@ -89,31 +69,55 @@
 
     <section class="thumb-zone left-zone" aria-label="左侧拇指操作区">
       <button class="btn op-btn action-rotate" data-action="rotate" aria-label="旋转">
-        <span class="op-icon" aria-hidden="true">↻</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M21 2v6h-6" />
+          <path d="M20.49 9A9 9 0 1 0 21 12" />
+        </svg>
       </button>
       <button class="btn op-btn action-down" data-action="down" aria-label="下落">
-        <span class="op-icon" aria-hidden="true">↓</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 4v12" />
+          <path d="M6 12l6 6 6-6" />
+        </svg>
       </button>
       <button class="btn op-btn action-left" data-action="left" aria-label="左移">
-        <span class="op-icon" aria-hidden="true">←</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M14 6l-6 6 6 6" />
+          <path d="M8 12h12" />
+        </svg>
       </button>
       <button class="btn op-btn action-right" data-action="right" aria-label="右移">
-        <span class="op-icon" aria-hidden="true">→</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M10 6l6 6-6 6" />
+          <path d="M4 12h12" />
+        </svg>
       </button>
     </section>
 
     <section class="thumb-zone right-zone" aria-label="右侧拇指操作区">
       <button class="btn op-btn action-rotate" data-action="rotate" aria-label="旋转">
-        <span class="op-icon" aria-hidden="true">↻</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M21 2v6h-6" />
+          <path d="M20.49 9A9 9 0 1 0 21 12" />
+        </svg>
       </button>
       <button class="btn op-btn action-down" data-action="down" aria-label="下落">
-        <span class="op-icon" aria-hidden="true">↓</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 4v12" />
+          <path d="M6 12l6 6 6-6" />
+        </svg>
       </button>
       <button class="btn op-btn action-left" data-action="left" aria-label="左移">
-        <span class="op-icon" aria-hidden="true">←</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M14 6l-6 6 6 6" />
+          <path d="M8 12h12" />
+        </svg>
       </button>
       <button class="btn op-btn action-right" data-action="right" aria-label="右移">
-        <span class="op-icon" aria-hidden="true">→</span>
+        <svg class="op-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M10 6l6 6-6 6" />
+          <path d="M4 12h12" />
+        </svg>
       </button>
     </section>
   </main>

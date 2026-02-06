@@ -632,13 +632,29 @@
     var nextRect = nextWrap ? nextWrap.getBoundingClientRect() : null;
     var nextVisible = nextWrap && nextWrap.offsetParent !== null && nextRect && nextRect.width > 0;
     var isPortrait = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+    var nextIsOverlay = false;
+    if (nextVisible && window.getComputedStyle) {
+      nextIsOverlay = window.getComputedStyle(nextWrap).position === 'absolute';
+    }
     var gap = 10;
     var pad = 12;
 
     // In portrait, the next preview is an overlay; don't let it steal width from the playfield.
-    var nextOnSide = nextVisible && !isPortrait;
+    var nextOnSide = nextVisible && !isPortrait && !nextIsOverlay;
     var availableWidth = wrapRect.width - pad - (nextOnSide ? (nextRect.width + gap) : 0);
     var availableHeight = wrapRect.height - pad;
+
+    if (isPortrait) {
+      // Keep the board above the thumb pads (which are fixed-position overlays in portrait).
+      var leftPad = document.querySelector('.left-zone');
+      if (leftPad && leftPad.offsetParent !== null) {
+        var padRect = leftPad.getBoundingClientRect();
+        var safeHeight = padRect.top - wrapRect.top - 10;
+        if (safeHeight > 140) {
+          availableHeight = Math.min(availableHeight, safeHeight);
+        }
+      }
+    }
 
     var newBlock = Math.floor(Math.min(availableWidth / COLS, availableHeight / ROWS));
     newBlock = Math.max(12, Math.min(newBlock, 60));
