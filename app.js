@@ -371,8 +371,10 @@
     requestAnimationFrame(update);
   }
 
-  function bindButton(id, handler, hold) {
-    var el = document.getElementById(id);
+  function bindButtonElement(el, handler, hold) {
+    if (!el) {
+      return;
+    }
     var timer = null;
 
     function run() {
@@ -402,10 +404,25 @@
     el.addEventListener('mouseleave', stop);
   }
 
+  function bindActionButtons(action, handler, hold) {
+    var list = document.querySelectorAll('[data-action="' + action + '"]');
+    list.forEach(function (el) {
+      bindButtonElement(el, handler, hold);
+    });
+  }
+
   function hasTargetInInteractiveArea(target) {
     var node = target;
     while (node) {
       if (node.id === 'game') {
+        return true;
+      }
+      if (node.classList && (
+        node.classList.contains('controls') ||
+        node.classList.contains('fn-controls') ||
+        node.classList.contains('thumb-zone') ||
+        node.classList.contains('op-btn')
+      )) {
         return true;
       }
       if (node.className && typeof node.className === 'string' && node.className.indexOf('controls') >= 0) {
@@ -417,11 +434,10 @@
   }
 
   function setupControls() {
-    bindButton('btnLeft', function () { move(-1); }, true);
-    bindButton('btnRight', function () { move(1); }, true);
-    bindButton('btnRotate', rotate, false);
-    bindButton('btnDown', softDrop, true);
-    bindButton('btnDrop', hardDrop, false);
+    bindActionButtons('left', function () { move(-1); }, true);
+    bindActionButtons('right', function () { move(1); }, true);
+    bindActionButtons('rotate', rotate, false);
+    bindActionButtons('down', softDrop, true);
 
     var btnTouchLock = document.getElementById('btnTouchLock');
     var btnVoice = document.getElementById('btnVoice');

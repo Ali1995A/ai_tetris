@@ -48,15 +48,21 @@
         <button id="btnGuide" class="btn btn-alt">玩法提示</button>
       </div>
     </section>
-  </main>
 
-  <section class="op-controls edge-controls" aria-label="操作键">
-    <button id="btnRotate" class="btn">旋转</button>
-    <button id="btnDrop" class="btn">直接落下</button>
-    <button id="btnLeft" class="btn">左移</button>
-    <button id="btnDown" class="btn">加速下落</button>
-    <button id="btnRight" class="btn">右移</button>
-  </section>
+    <section class="thumb-zone left-zone" aria-label="左侧拇指操作区">
+      <button class="btn op-btn action-rotate" data-action="rotate">旋转</button>
+      <button class="btn op-btn action-down" data-action="down">下落</button>
+      <button class="btn op-btn action-left" data-action="left">左移</button>
+      <button class="btn op-btn action-right" data-action="right">右移</button>
+    </section>
+
+    <section class="thumb-zone right-zone" aria-label="右侧拇指操作区">
+      <button class="btn op-btn action-rotate" data-action="rotate">旋转</button>
+      <button class="btn op-btn action-down" data-action="down">下落</button>
+      <button class="btn op-btn action-left" data-action="left">左移</button>
+      <button class="btn op-btn action-right" data-action="right">右移</button>
+    </section>
+  </main>
 
   <script src="./app.js"></script>
 </body>
