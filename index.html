@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>儿童友好俄罗斯方块</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="panel top-panel">
+      <h1>俄罗斯方块乐园</h1>
+      <p class="subtitle">超简单模式 | 生命：∞</p>
+      <div class="stats" role="status" aria-live="polite">
+        <span>分数：<strong id="score">0</strong></span>
+        <span>消行：<strong id="lines">0</strong></span>
+      </div>
+      <p id="hint" class="hint">轻点按钮就能玩，积木堆太高会自动整理继续！</p>
+    </section>
+
+    <section class="game-wrap panel">
+      <canvas id="game" width="300" height="540" aria-label="俄罗斯方块画布"></canvas>
+      <div class="next-wrap">
+        <p>下一个</p>
+        <canvas id="next" width="120" height="120" aria-label="下一个方块"></canvas>
+      </div>
+    </section>
+
+    <section class="controls panel" aria-label="游戏控制区">
+      <button id="btnLeft" class="btn">左移</button>
+      <button id="btnRight" class="btn">右移</button>
+      <button id="btnRotate" class="btn">旋转</button>
+      <button id="btnDown" class="btn">加速下落</button>
+      <button id="btnDrop" class="btn">直接落下</button>
+      <button id="btnPause" class="btn btn-alt">暂停/继续</button>
+      <button id="btnRestart" class="btn btn-alt">重新开始</button>
+      <button id="btnTouchLock" class="btn btn-alt">防误触：开</button>
+      <button id="btnVoice" class="btn btn-alt">语音提示：开</button>
+      <button id="btnKid" class="btn btn-alt">幼儿大字：开</button>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
