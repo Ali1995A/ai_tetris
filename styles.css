@@ -61,48 +61,6 @@ body {
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-.guide {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1a0f1759;
-  z-index: 20;
-  padding: 16px;
-  backdrop-filter: blur(var(--blur)) saturate(1.1);
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.1);
-}
-
-.guide.hidden {
-  display: none;
-}
-
-.guide-card {
-  width: min(560px, 96%);
-  background: linear-gradient(160deg, #fffffffa 0%, #ffffffd4 60%, #ffe2ef9c 100%);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-stroke);
-  box-shadow: 0 20px 44px var(--glass-shadow), inset 0 1px 0 #ffffff;
-  padding: 18px;
-  text-align: center;
-}
-
-.guide-card h2 {
-  margin: 0 0 8px;
-  font-size: clamp(24px, 5vw, 40px);
-}
-
-.guide-card p {
-  margin: 6px 0;
-  font-size: clamp(16px, 3vw, 22px);
-}
-
-.guide-card .btn {
-  margin-top: 10px;
-  min-width: 180px;
-}
-
 .app {
   width: 100%;
   max-width: 1400px;
@@ -243,6 +201,7 @@ h1 {
   gap: 10px;
   align-items: start;
   min-height: 0;
+  position: relative;
 }
 
 #game,
@@ -555,10 +514,10 @@ body.kid-mode .btn .pinyin-text {
 @media (orientation: portrait) {
   .app {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     gap: 6px;
     height: 100%;
-    padding: 6px 6px calc(168px + env(safe-area-inset-bottom)) 6px;
+    padding: 6px 6px calc(158px + env(safe-area-inset-bottom)) 6px;
   }
 
   .top-panel {
@@ -580,26 +539,41 @@ body.kid-mode .btn .pinyin-text {
   }
 
   .controls {
-    max-width: 100%;
-    justify-self: stretch;
-    align-self: start;
-    padding: 5px;
-    background: #ffffffcf;
+    position: fixed;
+    top: calc(6px + env(safe-area-inset-top));
+    right: calc(6px + env(safe-area-inset-right));
+    z-index: 19;
+    max-width: min(240px, 54vw);
+    padding: 6px;
+    background: linear-gradient(160deg, #fffffffa 0%, #ffffffd6 60%, #ffe0ee9a 100%);
   }
 
   .fn-controls {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
   }
 
   .fn-controls .btn {
-    min-height: 34px;
+    min-height: 36px;
     font-size: clamp(11px, 2.7vw, 13px);
     border-radius: 9px;
   }
 
+  .controls .en-text {
+    display: none;
+  }
+
+  .controls .pinyin-text {
+    font-size: 0.5em;
+    opacity: 0.86;
+  }
+
+  .controls .hanzi-text {
+    font-size: 0.78em;
+  }
+
   .game-wrap {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
     gap: 6px;
     padding: 6px;
     align-items: stretch;
@@ -613,21 +587,25 @@ body.kid-mode .btn .pinyin-text {
   }
 
   .next-wrap {
-    width: clamp(62px, 16vw, 86px);
-    font-size: clamp(10px, 2.5vw, 12px);
-    align-self: start;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: clamp(64px, 18vw, 96px);
+    font-size: clamp(10px, 2.4vw, 12px);
+    opacity: 0.96;
+    pointer-events: none;
   }
 
   #next {
-    max-width: 84px;
+    max-width: 96px;
   }
 
   .thumb-zone {
     display: block;
     position: fixed;
-    bottom: calc(8px + env(safe-area-inset-bottom));
-    width: min(152px, 41vw);
-    height: min(152px, 41vw);
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    width: min(144px, 39vw);
+    height: min(144px, 39vw);
     z-index: 16;
     background:
       linear-gradient(160deg, #ffffffe8 0%, #ffffffb8 55%, #ffd8eb82 100%);
@@ -650,9 +628,9 @@ body.kid-mode .btn .pinyin-text {
   }
 
   .op-btn {
-    width: min(56px, 14.8vw);
-    height: min(56px, 14.8vw);
-    min-height: 48px;
+    width: min(52px, 13.8vw);
+    height: min(52px, 13.8vw);
+    min-height: 46px;
   }
 
   .op-icon {

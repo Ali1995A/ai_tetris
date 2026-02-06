@@ -32,8 +32,6 @@
 
   var canvas = document.getElementById('game');
   var nextCanvas = document.getElementById('next');
-  var guideEl = document.getElementById('guide');
-  var btnGuideStart = document.getElementById('btnGuideStart');
   var ctx = canvas.getContext('2d');
   var nextCtx = nextCanvas.getContext('2d');
 
@@ -44,7 +42,7 @@
   var board = createBoard();
   var score = 0;
   var lines = 0;
-  var paused = true;
+  var paused = false;
   var touchLockEnabled = true;
   var voiceEnabled = true;
   var kidModeEnabled = true;
@@ -557,9 +555,8 @@
     });
 
     btnGuide.addEventListener('click', function () {
-      paused = true;
-      guideEl.classList.remove('hidden');
-      setHint('yuè dú tí shì hòu diǎn kāi shǐ.', '阅读提示后点击开始继续。', 'Read tips, then tap Start.', false);
+      // No welcome modal; keep this button as a lightweight reminder via voice only.
+      speak('左移 右移 旋转 下落。玩得开心。');
     });
 
     if (isWeChat) {
@@ -583,16 +580,6 @@
         e.preventDefault();
         hardDrop();
       }
-    });
-  }
-
-  function setupGuide() {
-    btnGuideStart.addEventListener('click', function () {
-      guideEl.classList.add('hidden');
-      paused = false;
-      lastTime = performance.now();
-      vibrate(25);
-      setHint('kāi shǐ lɑ, màn màn wán jiù kě yǐ.', '开始啦，慢慢玩就可以。', 'Game starts. Play slowly.', true);
     });
   }
 
@@ -644,10 +631,13 @@
 
     var nextRect = nextWrap ? nextWrap.getBoundingClientRect() : null;
     var nextVisible = nextWrap && nextWrap.offsetParent !== null && nextRect && nextRect.width > 0;
+    var isPortrait = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
     var gap = 10;
     var pad = 12;
 
-    var availableWidth = wrapRect.width - pad - (nextVisible ? (nextRect.width + gap) : 0);
+    // In portrait, the next preview is an overlay; don't let it steal width from the playfield.
+    var nextOnSide = nextVisible && !isPortrait;
+    var availableWidth = wrapRect.width - pad - (nextOnSide ? (nextRect.width + gap) : 0);
     var availableHeight = wrapRect.height - pad;
 
     var newBlock = Math.floor(Math.min(availableWidth / COLS, availableHeight / ROWS));
@@ -666,7 +656,7 @@
     ctx.imageSmoothingEnabled = false;
 
     if (nextVisible) {
-      nextCanvasCssSize = Math.floor(Math.min(nextRect.width, 104));
+      nextCanvasCssSize = Math.floor(Math.min(nextRect.width, isPortrait ? 96 : 104));
       nextCanvasCssSize = Math.max(64, nextCanvasCssSize);
       nextCanvas.style.width = nextCanvasCssSize + 'px';
       nextCanvas.style.height = nextCanvasCssSize + 'px';
@@ -752,7 +742,6 @@
     drawNext();
     updateStats();
     setupControls();
-    setupGuide();
     setupGestureGuard();
     setupPortraitCanvasGestures();
     lastTime = performance.now();
