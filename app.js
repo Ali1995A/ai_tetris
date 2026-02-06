@@ -181,11 +181,37 @@
     window.speechSynthesis.speak(utter);
   }
 
-  function setHint(text, withVoice) {
-    hintEl.textContent = text;
+  function normalizePinyinText(text) {
+    return text
+      .replace(/ā/g, 'ɑ\u0304')
+      .replace(/á/g, 'ɑ\u0301')
+      .replace(/ǎ/g, 'ɑ\u030C')
+      .replace(/à/g, 'ɑ\u0300')
+      .replace(/a/g, 'ɑ');
+  }
+
+  function triMarkup(pinyin, hanzi, english) {
+    return '<span class="pinyin-text">' + normalizePinyinText(pinyin) + '</span>' +
+      '<span class="hanzi-text">' + hanzi + '</span>' +
+      '<span class="en-text">' + english + '</span>';
+  }
+
+  function setTriText(el, pinyin, hanzi, english) {
+    el.innerHTML = triMarkup(pinyin, hanzi, english);
+  }
+
+  function setHint(pinyin, hanzi, english, withVoice) {
+    setTriText(hintEl, pinyin, hanzi, english);
     if (withVoice) {
-      speak(text);
+      speak(hanzi);
     }
+  }
+
+  function normalizeAllPinyinNodes() {
+    var nodes = document.querySelectorAll('.pinyin-text');
+    nodes.forEach(function (el) {
+      el.textContent = normalizePinyinText(el.textContent || '');
+    });
   }
 
   function clearLines() {
@@ -211,7 +237,7 @@
       score += cleared * 100;
       vibrate(18);
       if (lines % 5 === 0) {
-        setHint('太棒了！你已经消除了 ' + lines + ' 行！', true);
+        setHint('tài bàng le! nǐ yǐ jīng xiāo chú le ' + lines + ' hɑ́ng!', '太棒了！你已经消除了 ' + lines + ' 行！', 'Great! You cleared ' + lines + ' lines!', true);
       }
       updateStats();
     }
@@ -228,7 +254,7 @@
     softenTopRows();
     score += 30;
     vibrate([20, 40, 20]);
-    setHint('启动自动救援，危险区域已清理，可以继续玩。', true);
+    setHint('zì dòng jiù yuán yǐ qǐ dòng, kě yǐ jì xù wán.', '启动自动救援，危险区域已清理，可以继续玩。', 'Auto rescue activated. Keep playing.', true);
     updateStats();
   }
 
@@ -445,18 +471,33 @@
     var btnGuide = document.getElementById('btnGuide');
 
     function refreshSwitchText() {
-      btnTouchLock.textContent = '防误触：' + (touchLockEnabled ? '开' : '关');
-      btnVoice.textContent = '语音提示：' + (voiceEnabled ? '开' : '关');
-      btnKid.textContent = '幼儿大字：' + (kidModeEnabled ? '开' : '关');
+      setTriText(
+        btnTouchLock,
+        'fáng wù chù: ' + (touchLockEnabled ? 'kāi' : 'guān'),
+        '防误触：' + (touchLockEnabled ? '开' : '关'),
+        'TOUCH LOCK: ' + (touchLockEnabled ? 'ON' : 'OFF')
+      );
+      setTriText(
+        btnVoice,
+        'yǔ yīn tí shì: ' + (voiceEnabled ? 'kāi' : 'guān'),
+        '语音提示：' + (voiceEnabled ? '开' : '关'),
+        'VOICE: ' + (voiceEnabled ? 'ON' : 'OFF')
+      );
+      setTriText(
+        btnKid,
+        'yòu ér dà zì: ' + (kidModeEnabled ? 'kāi' : 'guān'),
+        '幼儿大字：' + (kidModeEnabled ? '开' : '关'),
+        'KID FONT: ' + (kidModeEnabled ? 'ON' : 'OFF')
+      );
       document.body.classList.toggle('kid-mode', kidModeEnabled);
     }
 
     document.getElementById('btnPause').addEventListener('click', function () {
       paused = !paused;
       if (paused) {
-        setHint('已暂停，点击暂停继续玩。', true);
+        setHint('yǐ zàn tíng, diǎn àn jì xù.', '已暂停，点击暂停继续玩。', 'Paused. Tap to continue.', true);
       } else {
-        setHint('继续游戏，慢慢玩就好。', true);
+        setHint('jì xù yóu xì, màn màn wán.', '继续游戏，慢慢玩就好。', 'Resume and take it easy.', true);
         lastTime = performance.now();
       }
     });
@@ -466,7 +507,7 @@
       score = 0;
       lines = 0;
       paused = false;
-      setHint('新一局开始啦，玩得开心！', true);
+      setHint('xīn yì jú kāi shǐ lɑ, wán de kāi xīn!', '新一局开始啦，玩得开心！', 'New round started. Have fun!', true);
       updateStats();
       spawn();
       drawNext();
@@ -478,14 +519,24 @@
       touchLockEnabled = !touchLockEnabled;
       refreshSwitchText();
       saveSettings();
-      setHint(touchLockEnabled ? '已开启防误触手势锁定。' : '已关闭防误触手势锁定。', true);
+      setHint(
+        touchLockEnabled ? 'fáng wù chù yǐ kāi qǐ.' : 'fáng wù chù yǐ guān bì.',
+        touchLockEnabled ? '已开启防误触手势锁定。' : '已关闭防误触手势锁定。',
+        touchLockEnabled ? 'Touch lock enabled.' : 'Touch lock disabled.',
+        true
+      );
     });
 
     btnVoice.addEventListener('click', function () {
       voiceEnabled = !voiceEnabled;
       refreshSwitchText();
       saveSettings();
-      setHint(voiceEnabled ? '语音提示已开启。' : '语音提示已关闭。', false);
+      setHint(
+        voiceEnabled ? 'yǔ yīn tí shì yǐ kāi qǐ.' : 'yǔ yīn tí shì yǐ guān bì.',
+        voiceEnabled ? '语音提示已开启。' : '语音提示已关闭。',
+        voiceEnabled ? 'Voice enabled.' : 'Voice disabled.',
+        false
+      );
       if (voiceEnabled) {
         speak('语音提示已开启。');
       }
@@ -495,18 +546,23 @@
       kidModeEnabled = !kidModeEnabled;
       refreshSwitchText();
       saveSettings();
-      setHint(kidModeEnabled ? '幼儿大字模式已开启。' : '幼儿大字模式已关闭。', true);
+      setHint(
+        kidModeEnabled ? 'yòu ér dà zì mó shì yǐ kāi qǐ.' : 'yòu ér dà zì mó shì yǐ guān bì.',
+        kidModeEnabled ? '幼儿大字模式已开启。' : '幼儿大字模式已关闭。',
+        kidModeEnabled ? 'Kid font mode enabled.' : 'Kid font mode disabled.',
+        true
+      );
     });
 
     btnGuide.addEventListener('click', function () {
       paused = true;
       guideEl.classList.remove('hidden');
-      setHint('阅读提示后点击开始继续。', false);
+      setHint('yuè dú tí shì hòu diǎn kāi shǐ.', '阅读提示后点击开始继续。', 'Read tips, then tap Start.', false);
     });
 
     if (isWeChat) {
       touchLockEnabled = true;
-      setHint('检测到微信浏览器，已自动开启防误触。', true);
+      setHint('wēi xìn liú lǎn qì yǐ jiǎn cè, zì dòng kāi qǐ fáng wù chù.', '检测到微信浏览器，已自动开启防误触。', 'WeChat browser detected. Touch lock enabled.', true);
     }
 
     refreshSwitchText();
@@ -534,7 +590,7 @@
       paused = false;
       lastTime = performance.now();
       vibrate(25);
-      setHint('开始啦，慢慢玩就可以。', true);
+      setHint('kāi shǐ lɑ, màn màn wán jiù kě yǐ.', '开始啦，慢慢玩就可以。', 'Game starts. Play slowly.', true);
     });
   }
 
@@ -578,6 +634,7 @@
 
   function init() {
     loadSettings();
+    normalizeAllPinyinNodes();
     nextPiece = createPiece(randomType());
     spawn();
     drawNext();

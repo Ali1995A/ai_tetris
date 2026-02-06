@@ -15,6 +15,15 @@
   --soft-shadow: #ad5f8440;
 }
 
+@font-face {
+  font-family: "PinyinUI";
+  src: url("./fonts/pinyin-ui.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00C0-00FF, U+0100-017F, U+0251, U+02C7, U+0300, U+0301, U+0304, U+030C;
+}
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -108,6 +117,33 @@ h1 {
   text-align: center;
 }
 
+.tri-stack,
+.tri-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.pinyin-text {
+  font-family: "PinyinUI", "Noto Sans", "Segoe UI", sans-serif;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "clig" 0;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.hanzi-text {
+  line-height: 1.1;
+}
+
+.en-text {
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  font-size: 0.8em;
+  opacity: 0.9;
+}
+
 .subtitle,
 .hint {
   margin: 6px 0 0;
@@ -121,6 +157,17 @@ h1 {
   justify-content: center;
   gap: 14px;
   font-size: clamp(16px, 3vw, 20px);
+}
+
+.stat-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.stat-item strong {
+  margin-top: 2px;
 }
 
 .game-wrap {
@@ -164,11 +211,13 @@ h1 {
 
 .thumb-zone {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 10px;
   align-content: end;
   min-height: 0;
   padding: 8px;
+  aspect-ratio: 1 / 1;
 }
 
 .op-btn {
@@ -177,22 +226,27 @@ h1 {
   border-radius: 16px;
   background: linear-gradient(180deg, #ff9fc9 0%, var(--btn-strong) 100%);
   box-shadow: 0 8px 16px #ff7fb65e;
+  padding: 8px 6px;
 }
 
 .action-rotate {
-  grid-column: 1;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .action-down {
   grid-column: 2;
+  grid-row: 3;
 }
 
 .action-left {
   grid-column: 1;
+  grid-row: 2;
 }
 
 .action-right {
-  grid-column: 2;
+  grid-column: 3;
+  grid-row: 2;
 }
 
 .fn-controls {
@@ -210,6 +264,7 @@ h1 {
   border-radius: 10px;
   background: linear-gradient(180deg, #ffd0e4 0%, var(--btn-alt-strong) 100%);
   box-shadow: 0 4px 10px #d57fa85e;
+  padding: 6px 4px;
 }
 
 .btn {
@@ -221,6 +276,18 @@ h1 {
   color: #fff;
   background: linear-gradient(180deg, #ff9ec8 0%, var(--btn) 100%);
   box-shadow: 0 6px 14px #ff90bf5c;
+}
+
+.btn .pinyin-text {
+  font-size: 0.54em;
+}
+
+.btn .hanzi-text {
+  font-size: 0.72em;
+}
+
+.btn .en-text {
+  font-size: 0.5em;
 }
 
 .btn:active {
@@ -264,6 +331,10 @@ body.kid-mode .fn-controls .btn {
 body.kid-mode .op-btn {
   min-height: clamp(72px, 11vh, 98px);
   font-size: clamp(18px, 2.8vw, 24px);
+}
+
+body.kid-mode .btn .pinyin-text {
+  font-size: 0.58em;
 }
 
 @media (orientation: landscape) {
@@ -375,6 +446,11 @@ body.kid-mode .op-btn {
     grid-auto-rows: minmax(42px, auto);
     max-width: 100%;
     justify-self: end;
+  }
+
+  .thumb-zone {
+    width: min(240px, 19vw);
+    justify-self: center;
   }
 }
 

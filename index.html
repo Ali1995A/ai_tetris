@@ -11,56 +11,136 @@
 <body>
   <section id="guide" class="guide" aria-label="玩法引导">
     <div class="guide-card">
-      <h2>欢迎来到方块乐园</h2>
-      <p>小朋友点下面按钮就能开始：</p>
-      <p>左移、右移、旋转、下落。</p>
-      <p>积木太高会自动救援，生命无限。</p>
-      <button id="btnGuideStart" class="btn">开始游戏</button>
+      <h2 class="tri-stack">
+        <span class="pinyin-text">huān yíng lái dào fāng kuài lè yuán</span>
+        <span class="hanzi-text">欢迎来到方块乐园</span>
+        <span class="en-text">WELCOME TO BLOCK LAND</span>
+      </h2>
+      <p class="tri-stack">
+        <span class="pinyin-text">diǎn àn niǔ kāi shǐ</span>
+        <span class="hanzi-text">点按钮开始</span>
+        <span class="en-text">TAP BUTTONS TO START</span>
+      </p>
+      <button id="btnGuideStart" class="btn tri-btn">
+        <span class="pinyin-text">kāi shǐ yóu xì</span>
+        <span class="hanzi-text">开始游戏</span>
+        <span class="en-text">START GAME</span>
+      </button>
     </div>
   </section>
 
   <main class="app">
     <section class="panel top-panel">
-      <h1>俄罗斯方块乐园</h1>
-      <p class="subtitle">超简单模式 | 生命：∞</p>
+      <h1 class="tri-stack">
+        <span class="pinyin-text">é luó sī fāng kuài lè yuán</span>
+        <span class="hanzi-text">俄罗斯方块乐园</span>
+        <span class="en-text">KIDS TETRIS GARDEN</span>
+      </h1>
+      <p class="subtitle tri-stack">
+        <span class="pinyin-text">chāo jiǎn dān mó shì | shēng mìng wú xiàn</span>
+        <span class="hanzi-text">超简单模式 | 生命无限</span>
+        <span class="en-text">EASY MODE | INFINITE LIVES</span>
+      </p>
       <div class="stats" role="status" aria-live="polite">
-        <span>分数：<strong id="score">0</strong></span>
-        <span>消行：<strong id="lines">0</strong></span>
+        <span class="stat-item">
+          <span class="pinyin-text">fēn shù</span>
+          <span class="hanzi-text">分数</span>
+          <span class="en-text">SCORE</span>
+          <strong id="score">0</strong>
+        </span>
+        <span class="stat-item">
+          <span class="pinyin-text">xiāo hɑ́ng</span>
+          <span class="hanzi-text">消行</span>
+          <span class="en-text">LINES</span>
+          <strong id="lines">0</strong>
+        </span>
       </div>
-      <p id="hint" class="hint">轻点按钮就能玩，积木堆太高会自动整理继续！</p>
+      <p id="hint" class="hint tri-stack">
+        <span class="pinyin-text">qīng diǎn àn niǔ jiù néng wán</span>
+        <span class="hanzi-text">轻点按钮就能玩</span>
+        <span class="en-text">TAP TO PLAY</span>
+      </p>
     </section>
 
     <section class="game-wrap panel">
       <canvas id="game" width="300" height="540" aria-label="俄罗斯方块画布"></canvas>
       <div class="next-wrap">
-        <p>下一个</p>
+        <p class="tri-stack">
+          <span class="pinyin-text">xià yí gè</span>
+          <span class="hanzi-text">下一个</span>
+          <span class="en-text">NEXT</span>
+        </p>
         <canvas id="next" width="120" height="120" aria-label="下一个方块"></canvas>
       </div>
     </section>
 
     <section class="controls panel" aria-label="功能键区域">
       <div class="fn-controls" aria-label="功能键">
-        <button id="btnPause" class="btn btn-alt">暂停/继续</button>
-        <button id="btnRestart" class="btn btn-alt">重新开始</button>
-        <button id="btnTouchLock" class="btn btn-alt">防误触：开</button>
-        <button id="btnVoice" class="btn btn-alt">语音提示：开</button>
-        <button id="btnKid" class="btn btn-alt">幼儿大字：开</button>
-        <button id="btnGuide" class="btn btn-alt">玩法提示</button>
+        <button id="btnPause" class="btn btn-alt tri-btn">
+          <span class="pinyin-text">zàn tíng / jì xù</span>
+          <span class="hanzi-text">暂停 / 继续</span>
+          <span class="en-text">PAUSE / RESUME</span>
+        </button>
+        <button id="btnRestart" class="btn btn-alt tri-btn">
+          <span class="pinyin-text">chóng xīn kāi shǐ</span>
+          <span class="hanzi-text">重新开始</span>
+          <span class="en-text">RESTART</span>
+        </button>
+        <button id="btnTouchLock" class="btn btn-alt tri-btn"></button>
+        <button id="btnVoice" class="btn btn-alt tri-btn"></button>
+        <button id="btnKid" class="btn btn-alt tri-btn"></button>
+        <button id="btnGuide" class="btn btn-alt tri-btn">
+          <span class="pinyin-text">wán fǎ tí shì</span>
+          <span class="hanzi-text">玩法提示</span>
+          <span class="en-text">HOW TO PLAY</span>
+        </button>
       </div>
     </section>
 
     <section class="thumb-zone left-zone" aria-label="左侧拇指操作区">
-      <button class="btn op-btn action-rotate" data-action="rotate">旋转</button>
-      <button class="btn op-btn action-down" data-action="down">下落</button>
-      <button class="btn op-btn action-left" data-action="left">左移</button>
-      <button class="btn op-btn action-right" data-action="right">右移</button>
+      <button class="btn op-btn action-rotate tri-btn" data-action="rotate">
+        <span class="pinyin-text">xuán zhuǎn</span>
+        <span class="hanzi-text">旋转</span>
+        <span class="en-text">ROTATE</span>
+      </button>
+      <button class="btn op-btn action-down tri-btn" data-action="down">
+        <span class="pinyin-text">xià luò</span>
+        <span class="hanzi-text">下落</span>
+        <span class="en-text">DROP</span>
+      </button>
+      <button class="btn op-btn action-left tri-btn" data-action="left">
+        <span class="pinyin-text">zuǒ yí</span>
+        <span class="hanzi-text">左移</span>
+        <span class="en-text">LEFT</span>
+      </button>
+      <button class="btn op-btn action-right tri-btn" data-action="right">
+        <span class="pinyin-text">yòu yí</span>
+        <span class="hanzi-text">右移</span>
+        <span class="en-text">RIGHT</span>
+      </button>
     </section>
 
     <section class="thumb-zone right-zone" aria-label="右侧拇指操作区">
-      <button class="btn op-btn action-rotate" data-action="rotate">旋转</button>
-      <button class="btn op-btn action-down" data-action="down">下落</button>
-      <button class="btn op-btn action-left" data-action="left">左移</button>
-      <button class="btn op-btn action-right" data-action="right">右移</button>
+      <button class="btn op-btn action-rotate tri-btn" data-action="rotate">
+        <span class="pinyin-text">xuán zhuǎn</span>
+        <span class="hanzi-text">旋转</span>
+        <span class="en-text">ROTATE</span>
+      </button>
+      <button class="btn op-btn action-down tri-btn" data-action="down">
+        <span class="pinyin-text">xià luò</span>
+        <span class="hanzi-text">下落</span>
+        <span class="en-text">DROP</span>
+      </button>
+      <button class="btn op-btn action-left tri-btn" data-action="left">
+        <span class="pinyin-text">zuǒ yí</span>
+        <span class="hanzi-text">左移</span>
+        <span class="en-text">LEFT</span>
+      </button>
+      <button class="btn op-btn action-right tri-btn" data-action="right">
+        <span class="pinyin-text">yòu yí</span>
+        <span class="hanzi-text">右移</span>
+        <span class="en-text">RIGHT</span>
+      </button>
     </section>
   </main>
 
