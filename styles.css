@@ -1,13 +1,18 @@
 :root {
-  --bg1: #fff4cf;
-  --bg2: #c9f4ff;
-  --card: #ffffffcc;
-  --text: #1f2f3a;
-  --accent: #ff8d4d;
-  --btn: #43c59e;
-  --btn-alt: #5d8bff;
-  --board: #f9fbff;
-  --line: #d8e6f2;
+  --bg1: #fff4fb;
+  --bg2: #ffe5f2;
+  --bg3: #ffd9ec;
+  --card: #ffffffe6;
+  --text: #503245;
+  --accent: #ff8fbe;
+  --btn: #ff7db1;
+  --btn-strong: #ff5f9d;
+  --btn-alt: #f7a5cb;
+  --btn-alt-strong: #ef8aba;
+  --board: #fff8fc;
+  --line: #f7d6e6;
+  --hairline: #ffffff;
+  --soft-shadow: #ad5f8440;
 }
 
 * {
@@ -27,11 +32,14 @@ body {
 }
 
 body {
-  background: radial-gradient(circle at 20% 10%, #ffffff 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background:
+    radial-gradient(circle at 15% 5%, #ffffff 0%, transparent 42%),
+    radial-gradient(circle at 90% 0%, #ffffffaa 0%, transparent 30%),
+    linear-gradient(165deg, var(--bg1) 0%, var(--bg2) 52%, var(--bg3) 100%);
   display: flex;
   align-items: stretch;
   justify-content: center;
-  padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(10px, env(safe-area-inset-left));
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .guide {
@@ -51,10 +59,10 @@ body {
 
 .guide-card {
   width: min(560px, 96%);
-  background: #fffdf3;
+  background: #fff9fd;
   border-radius: 18px;
-  border: 3px solid #fff;
-  box-shadow: 0 10px 36px #00000030;
+  border: 2px solid var(--hairline);
+  box-shadow: 0 16px 38px var(--soft-shadow);
   padding: 18px;
   text-align: center;
 }
@@ -75,18 +83,22 @@ body {
 }
 
 .app {
-  width: min(980px, 100%);
+  width: 100%;
+  max-width: 1400px;
   display: grid;
   gap: 10px;
   grid-template-rows: auto 1fr auto;
   min-height: 100%;
+  padding: 8px 8px calc(168px + env(safe-area-inset-bottom)) 8px;
 }
 
 .panel {
   background: var(--card);
-  border: 2px solid #ffffff;
+  border: 1.5px solid var(--hairline);
   border-radius: 18px;
-  box-shadow: 0 8px 22px #00000016;
+  box-shadow: 0 10px 28px var(--soft-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   padding: 12px;
 }
 
@@ -123,10 +135,11 @@ h1 {
 #next {
   background: var(--board);
   border-radius: 14px;
-  border: 2px solid #edf3fa;
+  border: 2px solid #ffe6f3;
   display: block;
   width: 100%;
   height: auto;
+  box-shadow: inset 0 1px 0 #ffffff, 0 4px 14px #e59abe22;
 }
 
 .next-wrap {
@@ -139,38 +152,75 @@ h1 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
+  max-width: 300px;
+  justify-self: end;
+  align-self: start;
+  padding: 8px;
 }
 
 .op-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
 }
 
+.op-controls .btn {
+  min-height: 76px;
+  font-size: clamp(16px, 3.2vw, 21px);
+  background: linear-gradient(180deg, #ff9fc9 0%, var(--btn-strong) 100%);
+  box-shadow: 0 8px 16px #ff7fb65e;
+}
+
 .op-controls #btnRotate {
-  grid-column: 1;
+  grid-column: 1 / span 2;
 }
 
 .op-controls #btnDrop {
-  grid-column: 3;
+  grid-column: 4 / span 2;
 }
 
 .op-controls #btnLeft {
-  grid-column: 1;
+  grid-column: 1 / span 2;
 }
 
 .op-controls #btnDown {
-  grid-column: 2;
+  grid-column: 3 / span 1;
 }
 
 .op-controls #btnRight {
-  grid-column: 3;
+  grid-column: 4 / span 2;
+}
+
+.edge-controls {
+  position: fixed;
+  left: max(8px, env(safe-area-inset-left));
+  right: max(8px, env(safe-area-inset-right));
+  bottom: calc(8px + env(safe-area-inset-bottom));
+  z-index: 15;
+  background: #ffffffdb;
+  border: 1.5px solid var(--hairline);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 10px 22px #b35f8450;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .fn-controls {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+  max-width: 100%;
+  justify-self: end;
+  align-self: start;
+}
+
+.fn-controls .btn {
+  min-height: 44px;
+  font-size: clamp(12px, 2.2vw, 15px);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffd0e4 0%, var(--btn-alt-strong) 100%);
+  box-shadow: 0 4px 10px #d57fa85e;
 }
 
 .btn {
@@ -180,15 +230,23 @@ h1 {
   font-size: clamp(14px, 2.8vw, 18px);
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(180deg, #6adcb8 0%, var(--btn) 100%);
+  background: linear-gradient(180deg, #ff9ec8 0%, var(--btn) 100%);
+  box-shadow: 0 6px 14px #ff90bf5c;
 }
 
 .btn:active {
-  transform: scale(0.98);
+  transform: scale(0.975) translateY(1px);
+  filter: saturate(1.08);
 }
 
 .btn-alt {
-  background: linear-gradient(180deg, #7ea6ff 0%, var(--btn-alt) 100%);
+  background: linear-gradient(180deg, #ffc2dc 0%, var(--btn-alt) 100%);
+  box-shadow: 0 4px 10px #dd8bb069;
+}
+
+.btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 1px;
 }
 
 body.kid-mode h1 {
@@ -209,11 +267,17 @@ body.kid-mode .btn {
   font-size: clamp(16px, 3.3vw, 22px);
 }
 
+body.kid-mode .fn-controls .btn {
+  min-height: 48px;
+  font-size: clamp(13px, 2.3vw, 16px);
+}
+
 @media (orientation: landscape) {
   .app {
-    grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+    grid-template-columns: minmax(0, 1.45fr) minmax(210px, 0.55fr);
     grid-template-rows: auto minmax(0, 1fr);
     height: 100%;
+    padding-bottom: calc(156px + env(safe-area-inset-bottom));
   }
 
   .top-panel {
@@ -277,28 +341,30 @@ body.kid-mode .btn {
     margin: 0 auto;
   }
 
-  .controls {
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 10px;
-    height: 100%;
-    padding: 8px;
-  }
-
-  .op-controls {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: minmax(60px, auto);
-    align-content: start;
-  }
-
   .fn-controls {
-    align-content: stretch;
+    align-content: start;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: minmax(52px, 1fr);
+    grid-auto-rows: minmax(42px, auto);
+    max-width: 240px;
+    justify-self: end;
   }
 }
 
 @media (max-width: 520px) {
+  .app {
+    padding-bottom: calc(190px + env(safe-area-inset-bottom));
+  }
+
+  .edge-controls {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .op-controls .btn {
+    min-height: 68px;
+    font-size: clamp(15px, 4vw, 18px);
+  }
+
   .fn-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
