@@ -159,6 +159,56 @@ h1 {
   font-size: clamp(16px, 3vw, 20px);
 }
 
+.top-panel {
+  padding: 4px 8px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title title"
+    "subtitle stats";
+  align-items: end;
+  gap: 0 8px;
+}
+
+.top-panel h1 {
+  grid-area: title;
+  text-align: left;
+  margin: 0;
+  font-size: clamp(17px, 2.2vw, 22px);
+}
+
+.top-panel .subtitle {
+  grid-area: subtitle;
+  margin: 0;
+  text-align: left;
+  font-size: clamp(11px, 1.5vw, 14px);
+}
+
+.top-panel .stats {
+  grid-area: stats;
+  margin: 0;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.top-panel .tri-stack {
+  align-items: flex-start;
+  gap: 0;
+}
+
+.top-panel .pinyin-text {
+  font-size: 0.5em;
+}
+
+.top-panel .hanzi-text {
+  font-size: 0.72em;
+}
+
+.top-panel .en-text,
+.top-panel .hint {
+  display: none;
+}
+
 .stat-item {
   display: inline-flex;
   flex-direction: column;
@@ -347,38 +397,21 @@ body.kid-mode .btn .pinyin-text {
 
   .top-panel {
     grid-column: 1 / 4;
-    padding: 8px 12px;
-    display: grid;
-    grid-template-columns: auto auto 1fr;
-    gap: 6px 12px;
-    align-items: center;
+    gap: 0 6px;
+    padding: 3px 8px;
   }
 
   .top-panel h1 {
-    text-align: left;
-    font-size: clamp(20px, 3.4vw, 28px);
-    line-height: 1.05;
+    line-height: 1;
   }
 
   .top-panel .subtitle {
-    margin: 0;
-    text-align: left;
-    font-size: clamp(13px, 1.8vw, 16px);
     white-space: nowrap;
   }
 
   .top-panel .stats {
-    margin: 0;
-    justify-content: flex-end;
-    font-size: clamp(14px, 2vw, 18px);
-  }
-
-  .top-panel .hint {
-    grid-column: 1 / 4;
-    margin: 0;
-    text-align: left;
-    font-size: clamp(12px, 1.7vw, 15px);
-    line-height: 1.2;
+    font-size: clamp(12px, 1.4vw, 15px);
+    gap: 8px;
   }
 
   .game-wrap {

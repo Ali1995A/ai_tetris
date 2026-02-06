@@ -201,7 +201,9 @@
   }
 
   function setHint(pinyin, hanzi, english, withVoice) {
-    setTriText(hintEl, pinyin, hanzi, english);
+    if (hintEl) {
+      setTriText(hintEl, pinyin, hanzi, english);
+    }
     if (withVoice) {
       speak(hanzi);
     }
