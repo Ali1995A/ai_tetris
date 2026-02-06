@@ -79,6 +79,7 @@ body {
   display: grid;
   gap: 10px;
   grid-template-rows: auto 1fr auto;
+  min-height: 100%;
 }
 
 .panel {
@@ -115,6 +116,7 @@ h1 {
   grid-template-columns: 1fr auto;
   gap: 10px;
   align-items: start;
+  min-height: 0;
 }
 
 #game,
@@ -135,7 +137,39 @@ h1 {
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.op-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.op-controls #btnRotate {
+  grid-column: 1;
+}
+
+.op-controls #btnDrop {
+  grid-column: 3;
+}
+
+.op-controls #btnLeft {
+  grid-column: 1;
+}
+
+.op-controls #btnDown {
+  grid-column: 2;
+}
+
+.op-controls #btnRight {
+  grid-column: 3;
+}
+
+.fn-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -177,22 +211,95 @@ body.kid-mode .btn {
 
 @media (orientation: landscape) {
   .app {
-    grid-template-columns: 1.1fr 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100%;
   }
 
   .top-panel {
     grid-column: 1 / 3;
+    padding: 8px 12px;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 6px 12px;
+    align-items: center;
+  }
+
+  .top-panel h1 {
+    text-align: left;
+    font-size: clamp(20px, 3.4vw, 28px);
+    line-height: 1.05;
+  }
+
+  .top-panel .subtitle {
+    margin: 0;
+    text-align: left;
+    font-size: clamp(13px, 1.8vw, 16px);
+    white-space: nowrap;
+  }
+
+  .top-panel .stats {
+    margin: 0;
+    justify-content: flex-end;
+    font-size: clamp(14px, 2vw, 18px);
+  }
+
+  .top-panel .hint {
+    grid-column: 1 / 4;
+    margin: 0;
+    text-align: left;
+    font-size: clamp(12px, 1.7vw, 15px);
+    line-height: 1.2;
+  }
+
+  .game-wrap {
+    height: 100%;
+    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 8px;
+  }
+
+  #game {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .next-wrap {
+    width: clamp(80px, 12vw, 120px);
+    align-self: start;
+  }
+
+  #next {
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
   }
 
   .controls {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 10px;
+    height: 100%;
+    padding: 8px;
+  }
+
+  .op-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(60px, auto);
     align-content: start;
+  }
+
+  .fn-controls {
+    align-content: stretch;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(52px, 1fr);
   }
 }
 
 @media (max-width: 520px) {
-  .controls {
+  .fn-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
